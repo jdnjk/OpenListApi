@@ -14,9 +14,11 @@ func main() {
 		return
 	}
 
-	if !cfg.Alipan {
+	if !cfg.Alipan.Enable {
 		log.Println("Alipan已禁用")
-		return
+	}
+	if !cfg.Baiduyun.Enable {
+		log.Println("Baiduyun已禁用")
 	}
 
 	server.StartServer(cfg)

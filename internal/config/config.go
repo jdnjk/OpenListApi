@@ -7,21 +7,33 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+type ServiceConfig struct {
+	Enable bool   `yaml:"enable"`
+	UID    string `yaml:"uid"`
+	Key    string `yaml:"key"`
+}
+
 type Config struct {
-	Port         string `yaml:"port"`
-	AliClientKey string `yaml:"ali_client_key"`
-	AliClientUID string `yaml:"ali_client_uid"`
-	Alipan       bool   `yaml:"alipan"`
+	Port     string        `yaml:"port"`
+	Alipan   ServiceConfig `yaml:"alipan"`
+	Baiduyun ServiceConfig `yaml:"baiduyun"`
 }
 
 func LoadConfig() (*Config, error) {
 	file, err := os.Open("config.yml")
 	if os.IsNotExist(err) {
 		defaultConfig := Config{
-			Port:         "8080",
-			AliClientKey: "",
-			AliClientUID: "",
-			Alipan:       false,
+			Port: "8080",
+			Alipan: ServiceConfig{
+				Enable: false,
+				UID:    "",
+				Key:    "",
+			},
+			Baiduyun: ServiceConfig{
+				Enable: false,
+				UID:    "",
+				Key:    "",
+			},
 		}
 		data, _ := yaml.Marshal(&defaultConfig)
 		os.WriteFile("config.yml", data, 0777)
