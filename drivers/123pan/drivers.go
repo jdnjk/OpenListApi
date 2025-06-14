@@ -20,6 +20,21 @@ func LoginHandler(cfg *config.Config) http.HandlerFunc {
 			return
 		}
 
+		if serverUse == "false" && clientUID == "" && clientKey == "" && (cfg.Pan123.UID == "" || cfg.Pan123.Key == "") {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Header().Set("Content-Type", "text/html")
+			w.Write([]byte(`
+				<html>
+				<head><title>500 Internal Server Error</title></head>
+				<body>
+				<center><h1>500 Internal Server Error</h1></center>
+				<hr><center>OpenListAPI</center>
+				</body>
+				</html>
+			`))
+			return
+		}
+
 		params := map[string]string{
 			"client_id":    clientUID,
 			"clientSecret": clientKey,

@@ -15,6 +15,7 @@ type ServiceConfig struct {
 
 type Config struct {
 	Port     string        `yaml:"port"`
+	LogLevel string        `yaml:"log_level"`
 	Alipan   ServiceConfig `yaml:"alipan"`
 	Baiduyun ServiceConfig `yaml:"baiduyun"`
 	Pan123   ServiceConfig `yaml:"123pan"`
@@ -24,7 +25,8 @@ func LoadConfig() (*Config, error) {
 	file, err := os.Open("config.yml")
 	if os.IsNotExist(err) {
 		defaultConfig := Config{
-			Port: "8080",
+			Port:     "8080",
+			LogLevel: "INFO",
 			Alipan: ServiceConfig{
 				Enable: false,
 				UID:    "",
