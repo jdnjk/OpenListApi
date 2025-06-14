@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	_123pan "github.com/jdnjk/OpenListApi/drivers/123pan"
 	"github.com/jdnjk/OpenListApi/drivers/alipan"
 	"github.com/jdnjk/OpenListApi/drivers/baidu"
 	"github.com/jdnjk/OpenListApi/internal/config"
@@ -37,6 +38,18 @@ func StartServer(cfg *config.Config) {
 		})
 		http.HandleFunc("/baiduyun/callback", func(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "baiduyun oauth service stop", http.StatusNotFound)
+		})
+	}
+
+	if cfg.Pan123.Enable {
+		http.HandleFunc("/123cloud/requests", _123pan.LoginHandler(cfg))
+		http.HandleFunc("/123cloud/callback", _123pan.TokenHandler(cfg))
+	} else {
+		http.HandleFunc("/123cloud/requests", func(w http.ResponseWriter, r *http.Request) {
+			http.Error(w, "123pan oauth service stop", http.StatusNotFound)
+		})
+		http.HandleFunc("/123cloud/callback", func(w http.ResponseWriter, r *http.Request) {
+			http.Error(w, "123pan oauth service stop", http.StatusNotFound)
 		})
 	}
 

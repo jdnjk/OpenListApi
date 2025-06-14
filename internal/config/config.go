@@ -17,6 +17,7 @@ type Config struct {
 	Port     string        `yaml:"port"`
 	Alipan   ServiceConfig `yaml:"alipan"`
 	Baiduyun ServiceConfig `yaml:"baiduyun"`
+	Pan123   ServiceConfig `yaml:"123pan"`
 }
 
 func LoadConfig() (*Config, error) {
@@ -30,6 +31,11 @@ func LoadConfig() (*Config, error) {
 				Key:    "",
 			},
 			Baiduyun: ServiceConfig{
+				Enable: false,
+				UID:    "",
+				Key:    "",
+			},
+			Pan123: ServiceConfig{
 				Enable: false,
 				UID:    "",
 				Key:    "",
