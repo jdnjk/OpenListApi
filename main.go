@@ -20,6 +20,9 @@ func main() {
 	if !cfg.Baiduyun.Enable {
 		log.Println("Baiduyun已禁用")
 	}
+	if !cfg.Pan123.Enable {
+		log.Println("123pan已禁用")
+	}
 
 	server.StartServer(cfg)
 }
